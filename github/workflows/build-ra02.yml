@@ -1,0 +1,38 @@
+
+name: Build Meshtastic RA-02
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "variants/esp32/diy/ra02/**"
+      - ".github/workflows/build-ra02.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build RA-02 firmware
+        uses: meshtastic/gh-action-firmware@main
+        with:
+          pio_platform: espressif32
+          pio_env: meshtastic-ra02
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: meshtastic-ra02-firmware
+          path: |
+            .pio/build/meshtastic-ra02/firmware.bin
+            release/*.bin
+          if-no-files-found: error
+          retention-days: 7
