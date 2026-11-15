@@ -1,7 +1,4 @@
 
-#define HAS_SCREEN 0
-#define HAS_GPS 0
-
 #define LORA_DIO0 26
 #define LORA_DIO1 33
 #define LORA_DIO2 RADIOLIB_NC
